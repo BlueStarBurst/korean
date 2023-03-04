@@ -88,10 +88,10 @@ export default function getHangul(str) {
 
 const phonetics = {
     "g": "ㄱ",
-    "kk": "ㄲ",
+    "gg": "ㄲ",
     "n": "ㄴ",
-    "t": "ㄷ",
-    "tt": "ㄸ",
+    "d": "ㄷ",
+    "dd": "ㄸ",
     "r": "ㄹ",
     "m": "ㅁ",
     "p": "ㅂ",
