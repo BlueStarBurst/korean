@@ -1,10 +1,33 @@
 import * as hangul from 'hangul-js';
 
+var flip = false;
+var flip2 = false;
+
+const check3letters = (str, i) => {
+    var test = str[i] + str[i + 1] + str[i + 2];
+    if (phonetics[test] === undefined) {
+        return "";
+    } else {
+        flip = true;
+        flip2 = true;
+        return phonetics[test];
+    }
+}
+
+const check2letters = (str, i) => {
+    var test = str[i] + str[i + 1];
+    if (phonetics[test] === undefined) {
+        return "";
+    } else {
+        flip = true;
+        return phonetics[test];
+    }
+}
+
 export default function getHangul(str) {
     var hangul = require('hangul-js');
     var hangulStr = hangul.disassemble(str);
-    var flip = false;
-    var flip2 = false;
+
     var hangulStr = hangulStr.map((x, i) => {
         if (flip2) {
             flip2 = false;
@@ -14,66 +37,15 @@ export default function getHangul(str) {
             flip = false;
             return "";
         }
-        if (x === "y" && hangulStr[i + 1] === "e" && hangulStr[i + 2] === "o") {
-            flip = true;
-            flip2 = true;
-            return phonetics["yeo"];
-        } else if (x === "y" && hangulStr[i + 1] === "a" && hangulStr[i + 2] === "e") {
-            flip = true;
-            flip2 = true;
-            return phonetics["yae"];
-        } else if (x === "w" && hangulStr[i + 1] === "a" && hangulStr[i + 2] === "e") {
-            flip = true;
-            flip2 = true;
-            return phonetics["wae"];
-        } else if (x === "e" && hangulStr[i + 1] === "o") {
-            flip = true;
-            return phonetics["eo"];
-        } else if (x === "e" && hangulStr[i + 1] === "u") {
-            flip = true;
-            return phonetics["eu"];
-        } else if (x === "k" && hangulStr[i + 1] === "k") {
-            flip = true;
-            return phonetics["kk"];
-        } else if (x === "p" && hangulStr[i + 1] === "p") {
-            flip = true;
-            return phonetics["pp"];
-        } else if (x === "s" && hangulStr[i + 1] === "s") {
-            flip = true;
-            return phonetics["ss"];
-        } else if (x === "j" && hangulStr[i + 1] === "j") {
-            flip = true;
-            return phonetics["jj"];
-        } else if (x === "t" && hangulStr[i + 1] === "t") {
-            flip = true;
-            return phonetics["tt"];
-        } else if (x === "c" && hangulStr[i + 1] === "h") {
-            flip = true;
-            return phonetics["ch"];
-        } else if (x === "w" && hangulStr[i + 1] === "a") {
-            flip = true;
-            return phonetics["wa"];
-        } else if (x === "w" && hangulStr[i + 1] === "e") {
-            flip = true;
-            return phonetics["we"];
-        } else if (x === "w" && hangulStr[i + 1] === "o") {
-            flip = true;
-            return phonetics["wo"];
-        } else if (x === "y" && hangulStr[i + 1] === "a") {
-            flip = true;
-            return phonetics["ya"];
-        } else if (x === "y" && hangulStr[i + 1] === "e") {
-            flip = true;
-            return phonetics["ye"];
-        } else if (x === "y" && hangulStr[i + 1] === "o") {
-            flip = true;
-            return phonetics["yo"];
-        } else if (x === "y" && hangulStr[i + 1] === "u") {
-            flip = true;
-            return phonetics["yu"];
-        } else if (x === "n" && hangulStr[i + 1] === "g") {
-            flip = true;
-            return phonetics["ng"];
+
+        var test = check3letters(hangulStr, i);
+        if (test !== "") {
+            return test;
+        }
+
+        test = check2letters(hangulStr, i);
+        if (test !== "") {
+            return test;
         }
 
         if (phonetics[x] === undefined) {
